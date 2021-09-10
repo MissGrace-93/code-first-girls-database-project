@@ -1,0 +1,4 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getclubs`()
+BEGIN
+		SELECT DISTINCT player_club FROM player_info;
+END
