@@ -4,6 +4,7 @@ A basic relational MySQL database, based on the IIHF Men's World Championships 2
 ---
 ## Table of Contents
 -[Introduction](#introduction)
+
 -[Technologies](#technologies)
 -[Using the Project](#using-the-project)
 -[Scripts](#scripts)
