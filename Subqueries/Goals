@@ -1,0 +1,13 @@
+
+-- PLAYERS THAT HAVE SCORED AT LEAST 1 GOAL --
+
+SELECT player_name,
+playerID,
+teamID
+FROM
+player_info
+WHERE
+playerID IN (SELECT DISTINCT
+player
+FROM
+goal_info)
