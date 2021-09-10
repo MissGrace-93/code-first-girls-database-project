@@ -1,0 +1,163 @@
+--
+-- Table structure for table `country`
+--
+
+DROP TABLE IF EXISTS `country`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `country` (
+  `teamID` int NOT NULL AUTO_INCREMENT,
+  `country_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`teamID`),
+  UNIQUE KEY `countryID_UNIQUE` (`teamID`),
+  UNIQUE KEY `country_name_UNIQUE` (`country_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `game_info`
+--
+
+DROP TABLE IF EXISTS `game_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `game_info` (
+  `gameID` int NOT NULL,
+  `game_date` date NOT NULL,
+  `venueID` varchar(1) NOT NULL,
+  `play_stageID` varchar(3) NOT NULL,
+  `group` varchar(1) DEFAULT NULL,
+  `home_teamID` int NOT NULL,
+  `away_teamID` int NOT NULL,
+  `home_goals` int NOT NULL DEFAULT '0',
+  `away_goals` int NOT NULL DEFAULT '0',
+  `decided_by` varchar(3) NOT NULL,
+  PRIMARY KEY (`gameID`),
+  KEY `venueID_idx` (`venueID`),
+  KEY `play_stageID_idx` (`play_stageID`),
+  KEY `home_teamID_idx` (`home_teamID`),
+  KEY `away_teamID_idx` (`away_teamID`),
+  CONSTRAINT `away_teamID` FOREIGN KEY (`away_teamID`) REFERENCES `country` (`teamID`),
+  CONSTRAINT `home_teamID` FOREIGN KEY (`home_teamID`) REFERENCES `country` (`teamID`),
+  CONSTRAINT `play_stageID` FOREIGN KEY (`play_stageID`) REFERENCES `play_stage` (`play_stageID`),
+  CONSTRAINT `venueID` FOREIGN KEY (`venueID`) REFERENCES `venues` (`venueID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `goal_info`
+--
+
+DROP TABLE IF EXISTS `goal_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `goal_info` (
+  `goalID` int NOT NULL,
+  `game` int NOT NULL,
+  `player` int NOT NULL,
+  `team` int NOT NULL,
+  `goal_time` time NOT NULL,
+  `goal_type` varchar(3) NOT NULL,
+  `play_stage` varchar(3) NOT NULL,
+  PRIMARY KEY (`goalID`),
+  KEY `gameID_idx` (`game`),
+  KEY `teamID_idx` (`team`),
+  KEY `player_idx` (`player`),
+  KEY `play_stage_idx` (`play_stage`),
+  CONSTRAINT `game` FOREIGN KEY (`game`) REFERENCES `game_info` (`gameID`),
+  CONSTRAINT `play_stage` FOREIGN KEY (`play_stage`) REFERENCES `play_stage` (`play_stageID`),
+  CONSTRAINT `player` FOREIGN KEY (`player`) REFERENCES `player_info` (`playerID`),
+  CONSTRAINT `team` FOREIGN KEY (`team`) REFERENCES `country` (`teamID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+
+--
+-- Table structure for table `play_stage`
+--
+
+DROP TABLE IF EXISTS `play_stage`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `play_stage` (
+  `play_stageID` varchar(3) NOT NULL,
+  `play_stage_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`play_stageID`),
+  UNIQUE KEY `play_stageID_UNIQUE` (`play_stageID`),
+  UNIQUE KEY `play_stage_name_UNIQUE` (`play_stage_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+
+--
+-- Table structure for table `player_info`
+--
+
+DROP TABLE IF EXISTS `player_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `player_info` (
+  `playerID` int NOT NULL AUTO_INCREMENT,
+  `teamID` int NOT NULL,
+  `jersey_no` int NOT NULL,
+  `player_name` varchar(50) NOT NULL,
+  `postionID` varchar(45) DEFAULT NULL,
+  `DOB` datetime DEFAULT NULL,
+  `player_club` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`playerID`),
+  UNIQUE KEY `playerID_UNIQUE` (`playerID`),
+  KEY `teamID_idx` (`teamID`),
+  CONSTRAINT `teamID` FOREIGN KEY (`teamID`) REFERENCES `country` (`teamID`)
+) ENGINE=InnoDB AUTO_INCREMENT=440 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+
+--
+-- Table structure for table `team_standings`
+--
+
+DROP TABLE IF EXISTS `team_standings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `team_standings` (
+  `team_id` int NOT NULL,
+  `group` varchar(1) NOT NULL,
+  `games_played` int NOT NULL,
+  `wins` int NOT NULL,
+  `OTW` int NOT NULL,
+  `losses` int NOT NULL,
+  `OTL` int NOT NULL,
+  `GF` int NOT NULL,
+  `GA` int NOT NULL,
+  `GD` int NOT NULL,
+  `points` int NOT NULL,
+  `group_position` int NOT NULL,
+  PRIMARY KEY (`team_id`),
+  CONSTRAINT `team_id` FOREIGN KEY (`team_id`) REFERENCES `country` (`teamID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+
+--
+-- Table structure for table `venues`
+--
+
+DROP TABLE IF EXISTS `venues`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `venues` (
+  `venueID` varchar(1) NOT NULL,
+  `venue_name` varchar(45) NOT NULL,
+  `venue_city` varchar(45) NOT NULL,
+  `venue_country` varchar(45) NOT NULL,
+  PRIMARY KEY (`venueID`),
+  UNIQUE KEY `venueID_UNIQUE` (`venueID`),
+  UNIQUE KEY `venue_name_UNIQUE` (`venue_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
