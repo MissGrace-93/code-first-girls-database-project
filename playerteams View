@@ -1,0 +1,13 @@
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `playerteams` AS
+    SELECT 
+        `player_info`.`player_name` AS `player_name`,
+        `player_info`.`jersey_no` AS `jersey_no`,
+        `player_info`.`player_club` AS `player_club`,
+        `country`.`country_name` AS `country_name`
+    FROM
+        (`player_info`
+        JOIN `country` ON ((`player_info`.`teamID` = `country`.`teamID`)))
