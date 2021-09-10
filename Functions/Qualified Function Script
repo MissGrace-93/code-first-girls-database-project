@@ -1,0 +1,6 @@
+SELECT team_id,
+groupID,
+group_position,
+Qualified (group_position) AS qualified
+FROM
+team_standings;
