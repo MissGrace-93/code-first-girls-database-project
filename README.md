@@ -1,6 +1,6 @@
 # code-first-girls-database-project
 ---
-A basic relational MySQL database, based on the IIHF Men's World Championships 2021.
+## A basic relational MySQL database, based on the IIHF Men's World Championships 2021.
 ---
 ## Table of Contents
 -[Introduction](#introduction)
