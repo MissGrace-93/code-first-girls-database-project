@@ -1,0 +1,10 @@
+
+-- Teams with more than 20 goals and qualified for quarterfinals: --
+
+SELECT *
+FROM
+team_standings
+WHERE
+GF > 20
+AND
+group_position <= 4;
