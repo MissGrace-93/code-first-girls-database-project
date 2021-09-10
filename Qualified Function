@@ -1,0 +1,14 @@
+CREATE DEFINER=`root`@`localhost` FUNCTION `Qualified`(
+ position INT
+) RETURNS varchar(20) CHARSET utf8mb4
+    DETERMINISTIC
+BEGIN
+	DECLARE qualified VARCHAR(20);
+    
+		IF position <= 4 THEN
+			SET qualified = 'QUALIFIED';
+		ELSEIF position > 4 THEN
+			SET qualified = 'DNQ';
+		END IF;
+			RETURN (qualified);
+END
